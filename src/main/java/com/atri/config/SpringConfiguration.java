@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan(basePackages = {
         "com.atri.view",
         "com.atri.controller",
-        "com.atri.scene"})
+        "com.atri.scene",
+        "com.atri.service"})
 public class SpringConfiguration {
 }

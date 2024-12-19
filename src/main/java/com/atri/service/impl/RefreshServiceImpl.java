@@ -4,16 +4,17 @@ import com.atri.service.RefreshService;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RefreshServiceImpl implements RefreshService {
 
-    private final AnimationTimer animationTimer;
-    private final Canvas canvas;
-    private final GraphicsContext gc;
+    private AnimationTimer animationTimer;
+    private Canvas canvas;
+    private GraphicsContext gc;
 
-    public RefreshServiceImpl(Canvas canvas) {
+    public void setCanvas(Canvas canvas) {
         this.canvas = canvas;
         this.gc = canvas.getGraphicsContext2D();
         this.animationTimer = new AnimationTimer() {

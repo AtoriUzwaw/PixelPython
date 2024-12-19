@@ -2,6 +2,7 @@ package com.atri.scene;
 
 import com.atri.service.KeyProcessService;
 import com.atri.service.RefreshService;
+import com.atri.service.impl.RefreshServiceImpl;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
@@ -25,6 +26,9 @@ public class GameScene {
     public GameScene(KeyProcessService keyProcessService, RefreshService refreshService) {
         this.keyProcessService = keyProcessService;
         this.refreshService = refreshService;
+        if (refreshService instanceof RefreshServiceImpl) {
+            ((RefreshServiceImpl) refreshService).setCanvas(canvas);
+        }
     }
 
     private void paint() {
