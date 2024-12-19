@@ -94,7 +94,7 @@ public class GameScene {
                 }));
         pythonMoveTimeLine.setCycleCount(Timeline.INDEFINITE);
 
-        food.setAlive(false);
+        food.snack(python.getBody());
         running = true;
 
         AnchorPane root = new AnchorPane();
@@ -133,11 +133,13 @@ public class GameScene {
         @Override
         public void handle(KeyEvent event) {
             KeyCode code = event.getCode();
-            if (KeyCode.SPACE.equals(code)) running = !running;
-            if (KeyCode.UP.equals(code)) python.setDirection(Direction.UP);
-            if (KeyCode.DOWN.equals(code)) python.setDirection(Direction.DOWN);
-            if (KeyCode.LEFT.equals(code)) python.setDirection(Direction.LEFT);
-            if (KeyCode.RIGHT.equals(code)) python.setDirection(Direction.RIGHT);
+            switch (code) {
+                case SPACE -> running = !running;
+                case UP -> python.setDirection(Direction.UP);
+                case DOWN -> python.setDirection(Direction.DOWN);
+                case LEFT -> python.setDirection(Direction.LEFT);
+                case RIGHT -> python.setDirection(Direction.RIGHT);
+            }
         }
     }
 

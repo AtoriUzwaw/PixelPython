@@ -18,7 +18,7 @@ public class Python extends Role{
         super(x, y, direction, speed);
         body = new LinkedList<>();
         for (int i = 0; i < INITIAL_SIZE; i++) {
-            body.addFirst(new Segment(10 - i, 10));
+            body.addFirst(new Segment(6 + i, 10));
         }
         super.direction = Direction.RIGHT;
     }
@@ -74,6 +74,7 @@ public class Python extends Role{
         gc.setFill(Color.BLACK);
         for (Segment segment : body) {
             gc.fillRect(segment.x * GRID_SIZE, segment.y * GRID_SIZE, GRID_SIZE, GRID_SIZE);
+//            System.out.println(segment.x + ", " + segment.y);
         }
     }
 }

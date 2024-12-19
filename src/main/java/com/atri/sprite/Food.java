@@ -6,7 +6,7 @@ import javafx.scene.text.Font;
 import java.util.LinkedList;
 import java.util.Random;
 
-public class Food extends Role{
+public class Food extends Role {
     int snackX;
     int snackY;
     int GRID_SIZE = 20;
@@ -17,12 +17,20 @@ public class Food extends Role{
 
     public void snack(LinkedList<Python.Segment> body) {
         Random random = new Random();
-        for (Python.Segment segment : body) {
+        boolean validPosition = false;
+        while (!validPosition) {
             int snackX = random.nextInt(600 / GRID_SIZE) * GRID_SIZE;
             int snackY = random.nextInt(400 / GRID_SIZE) * GRID_SIZE;
-
-            if (snackX != segment.x * GRID_SIZE) this.snackX = snackX;
-            if (snackY != segment.y * GRID_SIZE) this.snackY = snackY;
+            validPosition = true;
+            for (Python.Segment segment : body) {
+                if (snackX == segment.x * GRID_SIZE && snackY == segment.y * GRID_SIZE) {
+                    validPosition = false;
+                    break;
+                }
+            }
+            this.snackX = snackX;
+            this.snackY = snackY;
+            System.out.println(snackX + ", " + snackY);
         }
     }
 
