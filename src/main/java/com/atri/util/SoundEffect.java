@@ -6,7 +6,8 @@ import javafx.scene.media.MediaPlayer;
 import java.util.Objects;
 
 public enum SoundEffect {
-    BUTTON_CLICK("/sound/button_click.mp3");
+    BUTTON_CLICK("/sound/button_click.mp3"),
+    EAT("/sound/eat.mp3");
 
     private final String filePath;
 
