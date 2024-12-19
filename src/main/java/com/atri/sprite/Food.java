@@ -3,27 +3,32 @@ package com.atri.sprite;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.text.Font;
 
+import java.util.LinkedList;
 import java.util.Random;
 
 public class Food extends Role{
     int snackX;
     int snackY;
+    int GRID_SIZE = 20;
 
     public Food(boolean alive) {
         super(alive);
     }
 
-    public void snack(double width, double height) {
+    public void snack(LinkedList<Python.Segment> body) {
         Random random = new Random();
-        this.snackX = random.nextInt((int) 720 / 10) * 10;
-        this.snackY = random.nextInt((int) 480 / 10) * 10;
+        for (Python.Segment segment : body) {
+            int snackX = random.nextInt(600 / GRID_SIZE) * GRID_SIZE;
+            int snackY = random.nextInt(400 / GRID_SIZE) * GRID_SIZE;
+
+            if (snackX != segment.x * GRID_SIZE) this.snackX = snackX;
+            if (snackY != segment.y * GRID_SIZE) this.snackY = snackY;
+        }
     }
 
     public void drawFood(GraphicsContext gc) {
-        // 每个方格的大小
-        int GRID_SIZE = 10;
-        gc.setFont(Font.font(25));
-        gc.fillText("✿", snackX + (double) GRID_SIZE / 4, snackY + GRID_SIZE / 1.5);
+        gc.setFont(Font.font(24));
+        gc.fillText("✿", snackX - 2, snackY - 1);
     }
 
     @Override

@@ -2,8 +2,13 @@ package com.atri.scene;
 
 import com.atri.sprite.Background;
 import com.atri.sprite.Food;
+import com.atri.sprite.Python;
+import com.atri.util.Direction;
 import com.atri.view.Director;
+import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -13,6 +18,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class GameScene {
 //    720, 480
@@ -32,6 +38,9 @@ public class GameScene {
     private final Background background = new Background();
     private final Food food = new Food(true);
 
+    private final Python python = new Python(0, 0, Direction.RIGHT, 0);
+    private Timeline pythonMoveTimeLine;
+
     public void drawGrid(GraphicsContext gc) {
 
         gc.setStroke(Color.BLACK);
@@ -46,22 +55,45 @@ public class GameScene {
         }
     }
 
+
+
+
     public void paint() {
+        gameGc.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+
         background.paint(backgroundGc);
 
         drawGrid(gameGc);
 
         if (!food.isAlive()) {
-            food.snack(0, 0);
+            food.snack(python.getBody());
             food.drawFood(gameGc);
             food.setAlive(true);
         }
         if (food.isAlive()) {
             food.drawFood(gameGc);
         }
+
+        python.draw(gameGc);
+        if (running) {
+            if (pythonMoveTimeLine.getStatus() == Animation.Status.STOPPED) {
+                pythonMoveTimeLine.play();
+            }
+        } else {
+            pythonMoveTimeLine.stop();
+        }
+
     }
 
     public void initialize(Stage stage) {
+        pythonMoveTimeLine = new Timeline(
+                new KeyFrame(Duration.millis(200), e -> {
+                    if (running) {
+                        python.move();
+                    }
+                }));
+        pythonMoveTimeLine.setCycleCount(Timeline.INDEFINITE);
+
         food.setAlive(false);
         running = true;
 
@@ -79,6 +111,7 @@ public class GameScene {
         root.getChildren().addAll(backgroundCanvas, border, gameCanvas);
         stage.getScene().setRoot(root);
         stage.getScene().setOnKeyPressed(keyProcess);
+
         refresh.start();
     }
 
@@ -101,6 +134,10 @@ public class GameScene {
         public void handle(KeyEvent event) {
             KeyCode code = event.getCode();
             if (KeyCode.SPACE.equals(code)) running = !running;
+            if (KeyCode.UP.equals(code)) python.setDirection(Direction.UP);
+            if (KeyCode.DOWN.equals(code)) python.setDirection(Direction.DOWN);
+            if (KeyCode.LEFT.equals(code)) python.setDirection(Direction.LEFT);
+            if (KeyCode.RIGHT.equals(code)) python.setDirection(Direction.RIGHT);
         }
     }
 
