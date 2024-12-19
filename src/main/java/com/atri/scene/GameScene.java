@@ -83,6 +83,8 @@ public class GameScene {
             pythonMoveTimeLine.stop();
         }
 
+        checkFoodCollision();
+
     }
 
     public void initialize(Stage stage) {
@@ -145,5 +147,12 @@ public class GameScene {
 
     public void toggleGameState() {
         running = !running;
+    }
+
+    public void checkFoodCollision() {
+        if (python.getHead().x == food.getX() && python.getHead().y == food.getY() - 1) {
+            python.grow();
+            food.setAlive(false);
+        }
     }
 }

@@ -74,7 +74,13 @@ public class Python extends Role{
         gc.setFill(Color.BLACK);
         for (Segment segment : body) {
             gc.fillRect(segment.x * GRID_SIZE, segment.y * GRID_SIZE, GRID_SIZE, GRID_SIZE);
-//            System.out.println(segment.x + ", " + segment.y);
+//            if (segment == body.getFirst()) System.out.println(segment.x + ", " + segment.y );
         }
     }
+
+    public void grow() {
+        Segment newSegment = new Segment(body.getLast().x, body.getLast().y);
+        body.addLast(newSegment);
+    }
+
 }
