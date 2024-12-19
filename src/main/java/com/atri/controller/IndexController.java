@@ -1,6 +1,7 @@
 package com.atri.controller;
 
 import com.atri.util.SoundEffect;
+import com.atri.view.Director;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -37,16 +38,19 @@ public class IndexController {
     @FXML
     void clickStartGame1(MouseEvent event) {
         SoundEffect.BUTTON_CLICK.play();
+        Director.getInstance().gameStart();
     }
 
     @FXML
     void clickStartGame2(MouseEvent event) {
         SoundEffect.BUTTON_CLICK.play();
+        Director.getInstance().gameStart();
     }
 
     @FXML
     void clickStartGame3(MouseEvent event) {
         SoundEffect.BUTTON_CLICK.play();
+        Director.getInstance().gameStart();
     }
 
     @FXML

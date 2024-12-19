@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
         "com.atri.view",
         "com.atri.controller",
         "com.atri.scene",
-        "com.atri.service"})
+        "com.atri.service",
+        "com.atri.sprite"})
 public class SpringConfiguration {
 }

@@ -25,4 +25,9 @@ public class KeyProcessServiceImpl implements KeyProcessService {
     public boolean isRunning() {
         return running;
     }
+
+    @Override
+    public void setRunning(boolean b) {
+        this.running = b;
+    }
 }

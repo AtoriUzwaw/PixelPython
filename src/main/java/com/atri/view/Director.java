@@ -8,7 +8,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -28,12 +27,15 @@ public class Director {
 
     private Stage stage;
 
-    private final GameScene gameScene;
+    private static Director instance = new Director();
 
-    @Autowired
-    public Director(GameScene gameScene) {
-        this.gameScene = gameScene;
+    private GameScene gameScene = new GameScene();
+
+    public static Director getInstance() {
+        return instance;
     }
+
+
 
     /**
      * 初始化应用界面
@@ -54,7 +56,7 @@ public class Director {
         stage.setTitle("PixelPython");
         stage.getIcons().add(new Image(Objects.
                 requireNonNull(getClass().getResource("/image/icon.png")).toExternalForm()));
-        stage.setResizable(false);
+//        stage.setResizable(false);
         this.stage = stage;
         toIndex();
         stage.show();
@@ -64,7 +66,9 @@ public class Director {
         Index.load(stage);
     }
 
-    public void gameStart() {}
+    public void gameStart() {
+        gameScene.initialize(stage);
+    }
 
     public void gameOver() {}
 }

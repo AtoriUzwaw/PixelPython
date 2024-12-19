@@ -4,7 +4,6 @@ import com.atri.service.RefreshService;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 @Service

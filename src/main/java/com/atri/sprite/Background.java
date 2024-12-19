@@ -4,7 +4,10 @@ import javafx.scene.image.Image;
 
 public class Background extends Sprite{
 
-    public Background(Image image, double x, double y, double width, double height) {
-        super(image, x, y, width, height);
+    public Background() {
+        super(new Image("/image/background.png"), 0, 0, 800, 600);
     }
+
+/*    40
+    40*/
 }

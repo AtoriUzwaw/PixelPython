@@ -1,53 +1,64 @@
 package com.atri.scene;
 
-import com.atri.service.KeyProcessService;
-import com.atri.service.RefreshService;
-import com.atri.service.impl.RefreshServiceImpl;
+import com.atri.sprite.Background;
+import javafx.animation.AnimationTimer;
+import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-@Component
 public class GameScene {
-    private final double GAME_WIDTH = 720;
-    private final double GAME_HEIGHT = 480;
+//    720, 480
+    private final double GAME_WIDTH = 800;
+    private final double GAME_HEIGHT = 600;
 
-    private Canvas canvas = new Canvas(GAME_WIDTH, GAME_HEIGHT);
-    private GraphicsContext gc = canvas.getGraphicsContext2D();
+    private final Canvas canvas = new Canvas(GAME_WIDTH, GAME_HEIGHT);
+    private final GraphicsContext gc = canvas.getGraphicsContext2D();
 
-    private final KeyProcessService keyProcessService;
-    private final RefreshService refreshService;
+    private KeyProcess keyProcess = new KeyProcess();
+    private Refresh refresh = new Refresh();
+    private boolean running = false;
 
-    @Autowired
-    public GameScene(KeyProcessService keyProcessService, RefreshService refreshService) {
-        this.keyProcessService = keyProcessService;
-        this.refreshService = refreshService;
-        if (refreshService instanceof RefreshServiceImpl) {
-            ((RefreshServiceImpl) refreshService).setCanvas(canvas);
-        }
-    }
+    private Background background = new Background();
 
-    private void paint() {
-
+    public void paint() {
+        background.paint(gc);
     }
 
     public void initialize(Stage stage) {
+        running = true;
         AnchorPane root = new AnchorPane(canvas);
-        stage.setScene(root.getScene());
-        stage.getScene().setOnKeyPressed(keyProcessService);        // 设置键盘事件监听器
-        if (keyProcessService.isRunning()) refreshService.start();  // 如果游戏正在运行，开始刷新
+        stage.getScene().setRoot(root);
+        stage.getScene().setOnKeyPressed(keyProcess);
+        refresh.start();
     }
 
     public void clear(Stage stage) {
-        // 清除键盘事件监听器
-        stage.getScene().removeEventHandler(KeyEvent.KEY_PRESSED, keyProcessService);
+        stage.getScene().removeEventHandler(KeyEvent.KEY_PRESSED, keyProcess);
+        refresh.stop();
     }
 
-    public void pauseOrContinue() {
-        keyProcessService.toggleGameState();    // 切换游戏状态
+    private class Refresh extends AnimationTimer {
+
+        @Override
+        public void handle(long l) {
+            if (running) paint();
+        }
+    }
+
+    private class KeyProcess implements EventHandler<KeyEvent> {
+
+        @Override
+        public void handle(KeyEvent event) {
+            KeyCode code = event.getCode();
+            if (KeyCode.SPACE.equals(code)) running = !running;
+        }
+    }
+
+    public void toggleGameState() {
+        running = !running;
     }
 }
