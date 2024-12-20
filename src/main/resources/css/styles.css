@@ -1,0 +1,39 @@
+/* 设置表格的外观 */
+.table-view {
+    -fx-background-color: #9ab959;
+    -fx-border-color: #98b657;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-padding: 10px;
+}
+
+/* 设置表格列标题 */
+.table-view .column-header-background {
+    -fx-background-color: #96b355; /* 绿色背景 */
+}
+
+.table-view .column-header-background .label {
+    -fx-text-fill: #000000; /* 黑色文字 */
+    -fx-font-weight: bold; /* 粗体 */
+}
+
+/* 设置表格行间隔 */
+.table-row-cell {
+    -fx-alignment: center;
+    -fx-background-color: transparent, #94b053;
+    -fx-alternate-column-fill-visible: true;
+}
+
+/* 返回按钮悬停效果 */
+.button:hover {
+    -fx-background-color: #45a049;
+}
+
+/* VBox 的整体布局设置 */
+.vbox {
+    -fx-padding: 10;
+    -fx-alignment: center;
+    -fx-border-width: 2px;
+    -fx-border-color: #93af52;
+    -fx-border-radius: 10px;
+}

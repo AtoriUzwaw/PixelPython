@@ -1,7 +1,14 @@
 package com.atri.sprite;
 
+import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.util.LinkedList;
 import java.util.Random;
@@ -27,7 +34,7 @@ public class Food extends Role {
             validPosition = true;
             // 520, 0
             for (Python.Segment segment : body) {
-                if (snackX == segment.x * GRID_SIZE && snackY == segment.y * GRID_SIZE) {
+                if (super.x == segment.x && super.y == segment.y + 1) {
                     validPosition = false;
                     break;
                 }

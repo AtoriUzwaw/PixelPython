@@ -7,12 +7,12 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
-public class Index {
+public class IndexScene {
 
     public static void load(Stage stage) {
         try {
             Parent root = FXMLLoader.load
-                    (Objects.requireNonNull(Index.class.getResource("/fxml/index.fxml")));
+                    (Objects.requireNonNull(IndexScene.class.getResource("/fxml/index.fxml")));
             stage.getScene().setRoot(root);
         } catch (IOException e) {
             System.out.println(e.getMessage());

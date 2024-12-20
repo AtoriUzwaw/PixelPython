@@ -1,15 +1,19 @@
 package com.atri.controller;
 
 import com.atri.util.SoundEffect;
+import com.atri.util.Speed;
 import com.atri.view.Director;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import org.springframework.stereotype.Controller;
 
+@Controller
 public class IndexController {
 
     @FXML
@@ -21,6 +25,12 @@ public class IndexController {
     @FXML
     private Canvas button3;
 
+    @FXML
+    private Canvas recentRecordButton;
+
+    @FXML
+    private Label bestScoreLabel;
+
     private final Color DEFAULT_BACKGROUNDCOLOR = Color.TRANSPARENT;
     private final Color HOVER_BACKGROUNDCOLOR = Color.color(0, 0.6, 0, 0.5);
     private final Color DEFAULT_TEXTCOLOR = Color.BLACK;
@@ -28,29 +38,45 @@ public class IndexController {
     private final String BUTTON1_TEXT = "鼻涕虫";
     private final String BUTTON2_TEXT = "蠕虫";
     private final String BUTTON3_TEXT = "Python";
+    private final String RECENT_RECORD_BUTTON_TEXT = "最近记录";
 
     public void initialize() {
         drawButton(button1, DEFAULT_BACKGROUNDCOLOR, DEFAULT_TEXTCOLOR, BUTTON1_TEXT);
         drawButton(button2, DEFAULT_BACKGROUNDCOLOR, DEFAULT_TEXTCOLOR, BUTTON2_TEXT);
         drawButton(button3, DEFAULT_BACKGROUNDCOLOR, DEFAULT_TEXTCOLOR, BUTTON3_TEXT);
+        drawButton(recentRecordButton, DEFAULT_BACKGROUNDCOLOR, DEFAULT_TEXTCOLOR, RECENT_RECORD_BUTTON_TEXT);
+
+        bestScoreLabel.setFont(Font.loadFont(getClass().getResourceAsStream("/font/Silver.ttf"), 42));
+        // 微调“最佳得分位置”
+        bestScoreLabel.setStyle("-fx-padding: 3, 0, 0, 0");
+        bestScoreLabel.setLayoutX(bestScoreLabel.getLayoutX() + 85);
     }
 
     @FXML
     void clickStartGame1(MouseEvent event) {
         SoundEffect.BUTTON_CLICK.play();
+        Director.setSpeed(Speed.SLUG);
         Director.getInstance().gameStart();
     }
 
     @FXML
     void clickStartGame2(MouseEvent event) {
         SoundEffect.BUTTON_CLICK.play();
+        Director.setSpeed(Speed.WORM);
         Director.getInstance().gameStart();
     }
 
     @FXML
     void clickStartGame3(MouseEvent event) {
+        Director.setSpeed(Speed.PYTHON);
         SoundEffect.BUTTON_CLICK.play();
         Director.getInstance().gameStart();
+    }
+
+    @FXML
+    void clickRecentRecord(MouseEvent event) {
+        SoundEffect.BUTTON_CLICK.play();
+        Director.getInstance().toRecentRecord();
     }
 
     @FXML
@@ -69,6 +95,11 @@ public class IndexController {
     }
 
     @FXML
+    void enterRecentRecord(MouseEvent event) {
+        drawButton(recentRecordButton, HOVER_BACKGROUNDCOLOR, HOVER_TEXTCOLOR, RECENT_RECORD_BUTTON_TEXT);
+    }
+
+    @FXML
     void exitStartGame1(MouseEvent event) {
         drawButton(button1, DEFAULT_BACKGROUNDCOLOR, DEFAULT_TEXTCOLOR, BUTTON1_TEXT);
     }
@@ -81,6 +112,11 @@ public class IndexController {
     @FXML
     void exitStartGame3(MouseEvent event) {
         drawButton(button3, DEFAULT_BACKGROUNDCOLOR, DEFAULT_TEXTCOLOR, BUTTON3_TEXT);
+    }
+
+    @FXML
+    void exitRecentRecord(MouseEvent event) {
+        drawButton(recentRecordButton, DEFAULT_BACKGROUNDCOLOR, DEFAULT_TEXTCOLOR, RECENT_RECORD_BUTTON_TEXT);
     }
 
     private void drawButton(Canvas button, Color backgroundColor, Color textColor, String text) {

@@ -33,6 +33,14 @@ public class Python extends Role{
         return body.getLast();
     }
 
+    public void reset() {
+        body.clear();
+        for (int i = 0; i < INITIAL_SIZE; i++) {
+            body.addFirst(new Segment(6 + i, 10));
+        }
+        super.direction = Direction.RIGHT;
+    }
+
     public LinkedList<Segment> deepCopy(LinkedList<Segment> body) {
         LinkedList<Segment> copy = new LinkedList<>();
         for (Segment segment : body) {

@@ -5,6 +5,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
+<?import javafx.scene.control.Label?>
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.atri.controller.IndexController">
    <children>
       <ImageView fitHeight="600.0" fitWidth="800.0">
@@ -12,8 +13,10 @@
             <Image url="/image/index.png" />
          </image>
       </ImageView>
-      <Canvas id="3" fx:id="button3" height="70.0" layoutX="555.0" layoutY="319.0" onMouseClicked="#clickStartGame3" onMouseEntered="#enterStartGame3" onMouseExited="#exitStartGame3" width="180.0" />
-      <Canvas id="2" fx:id="button2" height="70.0" layoutX="310.0" layoutY="319.0" onMouseClicked="#clickStartGame2" onMouseEntered="#enterStartGame2" onMouseExited="#exitStartGame2" width="180.0" />
+      <Canvas fx:id="button3" height="70.0" layoutX="555.0" layoutY="319.0" onMouseClicked="#clickStartGame3" onMouseEntered="#enterStartGame3" onMouseExited="#exitStartGame3" width="180.0" />
+      <Canvas fx:id="button2" height="70.0" layoutX="310.0" layoutY="319.0" onMouseClicked="#clickStartGame2" onMouseEntered="#enterStartGame2" onMouseExited="#exitStartGame2" width="180.0" />
       <Canvas fx:id="button1" height="70.0" layoutX="65.0" layoutY="319.0" onMouseClicked="#clickStartGame1" onMouseEntered="#enterStartGame1" onMouseExited="#exitStartGame1" width="180.0" />
+      <Canvas fx:id="recentRecordButton" height="70.0" layoutX="65.0" layoutY="400.0" onMouseClicked="#clickRecentRecord" onMouseEntered="#enterRecentRecord" onMouseExited="#exitRecentRecord" width="180.0" />
+      <Label fx:id="bestScoreLabel" layoutX="260.0" layoutY="400.0" text="历史最佳: 0"/>
    </children>
 </AnchorPane>

@@ -10,15 +10,26 @@ import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.EventHandler;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
+
+import java.lang.invoke.VarHandle;
 
 public class GameScene {
     //    720, 480
@@ -40,6 +51,12 @@ public class GameScene {
 
     private final Python python = new Python(0, 0, Direction.RIGHT, 0);
     private Timeline pythonMoveTimeLine;
+
+    private Stage stage;
+
+    private Label scoreLabel; // 显示得分的标签
+    private int score = 0; // 初始得分为 0
+
 
     public void drawGrid(GraphicsContext gc) {
 
@@ -82,12 +99,12 @@ public class GameScene {
         } else {
             pythonMoveTimeLine.stop();
         }
-
     }
 
     public void initialize(Stage stage) {
+        this.stage = stage;
         pythonMoveTimeLine = new Timeline(
-                new KeyFrame(Duration.millis(200), e -> {
+                new KeyFrame(Duration.millis(Director.getSpeed().getSpeed()), e -> {
                     if (running) python.move();
 
                 }));
@@ -107,7 +124,14 @@ public class GameScene {
         gameCanvas.setLayoutX(100);
         gameCanvas.setLayoutY(50);
 
-        root.getChildren().addAll(backgroundCanvas, border, gameCanvas);
+        scoreLabel = new Label("Score: 0");
+        scoreLabel.setFont(Font.loadFont(getClass().getResourceAsStream("/font/Silver.ttf"), 20));
+        scoreLabel.setTextFill(Color.WHITE);
+        scoreLabel.setStyle("-fx-background-color: rgba(0, 0, 0, 0); -fx-padding: 5;");
+        AnchorPane.setLeftAnchor(scoreLabel, 10.0); // 固定在左下角
+        AnchorPane.setBottomAnchor(scoreLabel, 10.0);
+
+        root.getChildren().addAll(backgroundCanvas, border, gameCanvas, scoreLabel);
         stage.getScene().setRoot(root);
         stage.getScene().setOnKeyPressed(keyProcess);
 
@@ -152,6 +176,8 @@ public class GameScene {
         if (head.x == food.getX() && head.y == food.getY() - 1) {
             python.grow();
             food.setAlive(false);
+            score += 100;
+            scoreLabel.setText("Score: " + score);
         }
 
         if (head.x < 0 || head.x >= (GAME_WIDTH / GRID_SIZE) ||
@@ -174,7 +200,7 @@ public class GameScene {
         if (headX < 0) {
             python.addTailUpdateHead(lastX, lastY);    // 左越界补全
         } else if (headX >= (GAME_WIDTH / GRID_SIZE)) {
-            python.addTailUpdateHead(lastX, lastY);    // 右越界
+            python.addTailUpdateHead(lastX, lastY);    // 右越界补全
         } else if (headY < 0) {
             python.addTailUpdateHead(lastX, lastY);    // 上越界补全
         } else if (headY >= (GAME_HEIGHT / GRID_SIZE)) {
@@ -182,5 +208,86 @@ public class GameScene {
         }
 
         paint();
+
+        showGameOverPopup(this.stage);
     }
+
+    public void showGameOverPopup(Stage stage) {
+        // 暂停游戏状态
+        running = false;
+        pythonMoveTimeLine.stop();
+
+        // 创建新的模态窗口
+        Stage popupStage = new Stage();
+        // 设置为模态窗口
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        popupStage.initStyle(StageStyle.TRANSPARENT); // 设置透明背景
+        popupStage.initOwner(stage); // 设置所有者为主窗口
+
+        // 弹窗背景（透明）
+        StackPane root = new StackPane();
+        root.setStyle("-fx-background-color: rgba(0, 0, 0, 0);");
+
+        // “GAME OVER”文本
+        Text gameOverText = new Text("GAME OVER");
+        gameOverText.setFont(Font.loadFont(getClass().getResourceAsStream("/font/Silver.ttf"), 50));
+        gameOverText.setFill(Color.GREEN);
+
+        // 重新开始按钮
+        Button restartButton = new Button("重新开始");
+        restartButton.setFont(Font.loadFont(getClass().getResourceAsStream("/font/Silver.ttf"), 30));
+        restartButton.setTextFill(Color.WHITE);
+        restartButton.setStyle("""
+            -fx-background-color: transparent;
+            -fx-border-color: white;
+            -fx-border-width: 2;
+            -fx-border-radius: 5;
+            -fx-padding: 5 20 5 20;
+            -fx-cursor: hand;
+            -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.5), 10, 0, 0, 0);
+            """);
+        restartButton.setOnAction(e -> {
+            popupStage.close();
+            restartGame(stage); // 调用重新开始逻辑
+        });
+
+        // 返回主页按钮
+        Button exitButton = new Button("返回主页");
+        exitButton.setFont(Font.loadFont(getClass().getResourceAsStream("/font/Silver.ttf"), 30));
+        exitButton.setTextFill(Color.WHITE);
+        exitButton.setStyle(restartButton.getStyle());
+        exitButton.setOnAction(e -> {
+            popupStage.close();
+            Director.getInstance().toIndex();
+        });
+
+        // 按钮布局
+        VBox buttonLayout = new VBox(10, restartButton, exitButton);
+        buttonLayout.setStyle("-fx-alignment: center;");
+
+        // 主布局
+        VBox layout = new VBox(20, gameOverText, buttonLayout);
+        layout.setStyle("-fx-alignment: center;");
+
+        root.getChildren().add(layout);
+
+        // 创建场景
+        Scene scene = new Scene(root, 300, 200);
+        scene.setFill(Color.TRANSPARENT);
+
+        popupStage.setScene(scene);
+        popupStage.centerOnScreen(); // 居中显示
+        popupStage.show();
+    }
+
+    private void restartGame(Stage stage) {
+        python.reset(); // 重置蛇状态（需要在 Python 类中实现 reset 方法）
+        food.setAlive(false); // 重置食物状态
+        score = 0;
+        running = true;
+        pythonMoveTimeLine.play(); // 重新开始动画
+
+        paint(); // 重绘场景
+    }
+
 }

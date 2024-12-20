@@ -1,13 +1,19 @@
 package com.atri.view;
 
 import com.atri.scene.GameScene;
-import com.atri.scene.Index;
+import com.atri.scene.IndexScene;
+import com.atri.scene.RecentRecordScene;
+import com.atri.service.RecentService;
+import com.atri.util.Speed;
+import jakarta.annotation.Resource;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -29,13 +35,18 @@ public class Director {
 
     private Stage stage;
 
+    @Getter
+    @Setter
+    public static Speed speed;
+
+    @Getter
     private static Director instance = new Director();
 
     private GameScene gameScene = new GameScene();
 
-    public static Director getInstance() {
-        return instance;
-    }
+    @Resource
+    RecentService recentService;
+
 
 
 
@@ -65,7 +76,11 @@ public class Director {
     }
 
     public void toIndex() {
-        Index.load(stage);
+        IndexScene.load(stage);
+    }
+
+    public void toRecentRecord() {
+        RecentRecordScene.load(stage);
     }
 
     public void gameStart() {
