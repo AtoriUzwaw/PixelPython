@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class GameScene {
-//    720, 480
+    //    720, 480
     private final double GAME_WIDTH = 600;
     private final double GAME_HEIGHT = 400;
     private final int GRID_SIZE = 20;
@@ -56,8 +56,6 @@ public class GameScene {
     }
 
 
-
-
     public void paint() {
         gameGc.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
 
@@ -74,6 +72,8 @@ public class GameScene {
             food.drawFood(gameGc);
         }
 
+        checkFoodCollision();
+
         python.draw(gameGc);
         if (running) {
             if (pythonMoveTimeLine.getStatus() == Animation.Status.STOPPED) {
@@ -83,16 +83,13 @@ public class GameScene {
             pythonMoveTimeLine.stop();
         }
 
-        checkFoodCollision();
-
     }
 
     public void initialize(Stage stage) {
         pythonMoveTimeLine = new Timeline(
                 new KeyFrame(Duration.millis(200), e -> {
-                    if (running) {
-                        python.move();
-                    }
+                    if (running) python.move();
+
                 }));
         pythonMoveTimeLine.setCycleCount(Timeline.INDEFINITE);
 
@@ -150,9 +147,40 @@ public class GameScene {
     }
 
     public void checkFoodCollision() {
-        if (python.getHead().x == food.getX() && python.getHead().y == food.getY() - 1) {
+        Python.Segment head = python.getHead();
+
+        if (head.x == food.getX() && head.y == food.getY() - 1) {
             python.grow();
             food.setAlive(false);
         }
+
+        if (head.x < 0 || head.x >= (GAME_WIDTH / GRID_SIZE) ||
+                head.y < 0 || head.y >= (GAME_HEIGHT / GRID_SIZE) )
+            endGame("游戏结束");
+
+    }
+
+    public void endGame(String message) {
+        running = false;
+        pythonMoveTimeLine.stop();
+        System.out.println(message);
+        Python.Segment head = python.getHead();
+        Python.Segment last = python.getOldBody().getLast();
+        int headX = head.x;
+        int headY = head.y;
+        int lastX = last.x;
+        int lastY = last.y;
+
+        if (headX < 0) {
+            python.addTailUpdateHead(lastX, lastY);    // 左越界补全
+        } else if (headX >= (GAME_WIDTH / GRID_SIZE)) {
+            python.addTailUpdateHead(lastX, lastY);    // 右越界
+        } else if (headY < 0) {
+            python.addTailUpdateHead(lastX, lastY);    // 上越界补全
+        } else if (headY >= (GAME_HEIGHT / GRID_SIZE)) {
+            python.addTailUpdateHead(headX, lastY);    // 下越界补全
+        }
+
+        paint();
     }
 }

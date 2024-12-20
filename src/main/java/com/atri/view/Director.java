@@ -25,6 +25,8 @@ public class Director {
     // 默认窗口宽度和高度
     public static final double DEFAULT_WIDTH = 800, DEFAULT_HEIGHT = 600;
 
+    public static final double GRID_SIZE = 20;
+
     private Stage stage;
 
     private static Director instance = new Director();

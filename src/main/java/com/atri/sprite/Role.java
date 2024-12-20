@@ -9,6 +9,7 @@ public abstract class Role extends Sprite{
     @Getter
     @Setter
     boolean alive = true;
+    @Getter
     Direction direction;
     double speed;
 
