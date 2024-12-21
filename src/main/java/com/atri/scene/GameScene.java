@@ -104,7 +104,7 @@ public class GameScene {
         }
 
         checkCollision();
-        if (python.checkSelfCollision()) endGame("结束游戏2");
+
 
         python.draw(gameGc);
         if (running) {
@@ -197,7 +197,11 @@ public class GameScene {
         public void handle(KeyEvent event) {
             KeyCode code = event.getCode();
             switch (code) {
-                case SPACE -> running = !running;
+                case SPACE -> {
+                    SoundEffect.KEYCODE_PRESS.play();
+                    running = !running;
+                }
+                // 方向键的音效在 setDirection() 方法中
                 case UP -> python.setDirection(Direction.UP);
                 case DOWN -> python.setDirection(Direction.DOWN);
                 case LEFT -> python.setDirection(Direction.LEFT);
@@ -211,6 +215,7 @@ public class GameScene {
     }
 
     public void checkCollision() {
+        if (!running) return;
         LinkedList<Python.Segment> body = python.getBody();
         Python.Segment head = body.get(0);
 
@@ -224,30 +229,19 @@ public class GameScene {
 
         if (head.x < 0 || head.x >= (GAME_WIDTH / GRID_SIZE) ||
                 head.y < 0 || head.y >= (GAME_HEIGHT / GRID_SIZE))
-            endGame("游戏结束1");
+            endGame("wall");
 
+        if (python.checkSelfCollision()) endGame("self");
     }
 
     public void endGame(String message) {
+        if (!running) return;
         running = false;
         pythonMoveTimeLine.stop();
         System.out.println(message);
-        Python.Segment head = python.getHead();
-        Python.Segment last = python.getOldBody().getLast();
-        int headX = head.x;
-        int headY = head.y;
-        int lastX = last.x;
-        int lastY = last.y;
 
-        if (headX < 0) {
-            python.addTailUpdateHead(lastX, lastY);    // 转移头部，补全尾部
-        } else if (headX >= (GAME_WIDTH / GRID_SIZE)) {
-            python.addTailUpdateHead(lastX, lastY);    // 转移头部，补全尾部
-        } else if (headY < 0) {
-            python.addTailUpdateHead(lastX, lastY);    // 转移头部，补全尾部
-        } else if (headY >= (GAME_HEIGHT / GRID_SIZE)) {
-            python.addTailUpdateHead(headX, lastY);    // 转移头部，补全尾部
-        }
+        python.addTailUpdateHead(); // 转移头部，补全尾部
+
 
 
         showGameOverPopup(this.stage);
@@ -256,9 +250,6 @@ public class GameScene {
     }
 
     public void showGameOverPopup(Stage stage) {
-        // 暂停游戏状态
-        running = false;
-        pythonMoveTimeLine.stop();
 
         // 创建新的模态窗口
         Stage popupStage = new Stage();

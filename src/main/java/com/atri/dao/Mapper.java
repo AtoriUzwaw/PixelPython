@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface Mapper {
-    @Select("select id, role, score, date_time from recent")
+    @Select("select id, role, score, date_time from recent order by id desc ")
     List<Record> selectRecent();
 
     @Select("select max(score) from recent")

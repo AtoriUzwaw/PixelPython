@@ -8,17 +8,25 @@ import jakarta.annotation.Resource;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.text.Font;
 import javafx.util.Callback;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Controller
 public class RecentRecordsController {
@@ -39,7 +47,13 @@ public class RecentRecordsController {
     private TableColumn<com.atri.entity.Record, LocalDateTime> dateColumn;
 
     @FXML
+    private Label title;
+
+    @FXML
     private Button backButton;
+
+    @FXML
+    private Button clearButton;
 
     @Resource
     RecentRecordService recentRecordService;
@@ -49,6 +63,14 @@ public class RecentRecordsController {
      */
     @FXML
     public void initialize() {
+        title.setFont(Font.loadFont(getClass().getResourceAsStream("/font/Silver.ttf"), 32));
+        title.setStyle("-fx-text-fill: #92ae51");
+
+        // 设置每一列的字体
+        indexColumn.setStyle("-fx-font-weight: bold; -fx-font-family: 'Silver'; -fx-font-size: 24px;");
+        roleColumn.setStyle("-fx-font-weight: bold; -fx-font-family: 'Silver'; -fx-font-size: 24px;");
+        scoreColumn.setStyle("-fx-font-weight: bold; -fx-font-family: 'Silver'; -fx-font-size: 24px;");
+        dateColumn.setStyle("-fx-font-weight: bold; -fx-font-family: 'Silver'; -fx-font-size: 24px;");
 
         // 设置列的数据映射
         indexColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -98,5 +120,47 @@ public class RecentRecordsController {
     private void onBackButtonClick() {
         SoundEffect.BUTTON_CLICK.play();
         Director.getInstance().toIndex();
+    }
+
+    @FXML
+    private void onClearButtonClick() {
+        // 播放按钮点击音效
+        SoundEffect.BUTTON_CLICK.play();
+
+        // 创建一个确认对话框
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("确认");
+        alert.setHeaderText("您确定要清除记录吗？");
+        alert.setContentText("此操作将无法恢复。");
+        alert.setGraphic(new ImageView(new Image(Objects.requireNonNull(
+                getClass().getResourceAsStream("/image/icon.png")))));
+
+        // 创建确认和取消按钮
+        ButtonType confirmButton = new ButtonType("确认");
+        ButtonType cancelButton = new ButtonType("取消");
+
+        // 设置按钮
+        alert.getButtonTypes().setAll(confirmButton, cancelButton);
+        alert.getDialogPane().getStylesheets().add(Objects.requireNonNull(
+                getClass().getResource("/css/confirmation_dialog.css")).toExternalForm());
+
+        // 显示弹窗并等待用户的选择
+        Optional<ButtonType> result = alert.showAndWait();
+
+        // 如果用户点击确认按钮
+        if (result.isPresent() && result.get() == confirmButton) {
+            SoundEffect.BUTTON_CLICK.play();
+            // 清除记录的逻辑
+            clearRecords();
+        }
+        if (result.isPresent() && result.get() == cancelButton) {
+            SoundEffect.BUTTON_CLICK.play();
+        }
+    }
+
+    // 清除记录的具体操作
+    private void clearRecords() {
+        // 在这里实现清除记录的逻辑
+        System.out.println("记录已清除");
     }
 }

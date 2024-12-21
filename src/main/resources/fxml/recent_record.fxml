@@ -7,11 +7,10 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.atri.controller.RecentRecordsController">
     <children>
-        <VBox spacing="20" layoutX="50.0" layoutY="30.0" prefWidth="700.0">
-            <!-- 表格标题 -->
-            <Label text="最近记录" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #333;" />
+        <VBox spacing="30" layoutX="50.0" layoutY="30.0" prefWidth="700.0" prefHeight="600.0">
 
             <!-- 表格视图 -->
             <TableView fx:id="recordsTable" prefHeight="450.0">
@@ -26,11 +25,17 @@
                     <TableColumn fx:id="dateColumn" prefWidth="300.0" text="日期" />
                 </columns>
             </TableView>
-
             <!-- 返回按钮 -->
-            <Button fx:id="backButton" text="返回" onAction="#onBackButtonClick"
-                    style="-fx-font-size: 16px; -fx-background-color: #92ae51; -fx-text-fill: #000000;"
-                    maxWidth="200.0" alignment="center" />
+            <HBox spacing="108" prefWidth="700.0" >
+                <Button fx:id="backButton" text="返回" onAction="#onBackButtonClick"
+                        style="-fx-font-family: Silver; -fx-font-size: 16px; -fx-background-color: #92ae51; -fx-text-fill: #000000;"
+                        prefWidth="200.0" alignment="CENTER"/>
+                <Label fx:id="title" text="最近记录"/>
+                <Button fx:id="clearButton" text="清空记录" onAction="#onClearButtonClick"
+                        style="-fx-font-family: Silver; -fx-font-size: 16px; -fx-background-color: #92ae51; -fx-text-fill: #000000;"
+                        prefWidth="200.0" alignment="CENTER"/>
+            </HBox>
         </VBox>
     </children>
 </AnchorPane>
+

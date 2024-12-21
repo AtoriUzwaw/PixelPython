@@ -1,3 +1,8 @@
+@font-face {
+    font-family: "Silver";
+    src: url("font/Silver.ttf") format("truetype");
+}
+
 /* 设置表格的外观 */
 .table-view {
     -fx-background-color: #9ab959;
@@ -10,6 +15,7 @@
 /* 设置表格列标题 */
 .table-view .column-header-background {
     -fx-background-color: #96b355; /* 绿色背景 */
+    -fx-color: #6a8629;
 }
 
 .table-view .column-header-background .label {
@@ -37,3 +43,25 @@
     -fx-border-color: #93af52;
     -fx-border-radius: 10px;
 }
+
+/* 禁用水平滚动条 */
+.table-view .scroll-bar:horizontal {
+    -fx-opacity: 0;  /* 隐藏水平滚动条 */
+    -fx-pref-height: 0; /* 将高度设置为 0，隐藏滚动条 */
+}
+
+/* 修改垂直滚动条 */
+.table-view .scroll-bar:vertical {
+    -fx-background-color: #94b053;
+    -fx-color: #93af52; /* 背景色 */
+    -fx-pref-width: 12px; /* 宽度 */
+}
+
+/* 滚动条轨道的颜色 */
+.table-view .scroll-bar .track {
+    -fx-background-color: #94b053; /* 轨道背景色 */
+    -fx-background-radius: 5px; /* 轨道圆角 */
+}
+
+
+

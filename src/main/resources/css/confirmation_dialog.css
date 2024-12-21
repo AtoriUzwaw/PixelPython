@@ -1,0 +1,42 @@
+@font-face {
+    font-family: "Silver";
+    src: url("font/Silver.ttf") format("truetype");
+}
+
+/* Alert对话框 */
+.alert {
+    -fx-font-family: Silver;
+    -fx-font-size: 24px;
+    -fx-background-color: #f5f5f5; /* 设置背景色为灰色 */
+    -fx-border-color: #cccccc; /* 设置边框颜色 */
+    -fx-border-radius: 10px; /* 设置圆角 */
+}
+
+.alert .dialog-pane {
+    -fx-background-color: #ffffff; /* 设置对话框内部背景为白色 */
+    -fx-border-radius: 10px; /* 设置内部圆角 */
+}
+
+/* 按钮 */
+.alert .button {
+    -fx-font-family: Silver;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+}
+
+/* 设置确认按钮背景 */
+.alert .button.confirm-button {
+    -fx-background-color: #92ae51;
+    -fx-text-fill: white;
+}
+
+/* 设置取消按钮背景 */
+.alert .button.cancel-button {
+    -fx-background-color: #f44336;
+    -fx-text-fill: white;
+}
+
+.button:hover {
+    -fx-background-color: #45a049;
+}
