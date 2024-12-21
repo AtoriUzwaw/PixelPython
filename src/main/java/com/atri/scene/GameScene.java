@@ -1,9 +1,14 @@
 package com.atri.scene;
 
+import com.atri.config.AppConfig;
+import com.atri.service.RecentRecordService;
+import com.atri.service.impl.RecentRecordServiceImpl;
 import com.atri.sprite.Background;
 import com.atri.sprite.Food;
 import com.atri.sprite.Python;
 import com.atri.util.Direction;
+import com.atri.util.SoundEffect;
+import com.atri.util.TranslationUtil;
 import com.atri.view.Director;
 import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
@@ -28,14 +33,17 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Controller;
 
-import java.lang.invoke.VarHandle;
+import java.util.LinkedList;
 
+@Controller
 public class GameScene {
     //    720, 480
     private final double GAME_WIDTH = 600;
     private final double GAME_HEIGHT = 400;
-    private final int GRID_SIZE = 20;
+    private final double GRID_SIZE = Director.GRID_SIZE;
 
     private final Canvas backgroundCanvas = new Canvas(Director.DEFAULT_WIDTH, Director.DEFAULT_HEIGHT);
     private final Canvas gameCanvas = new Canvas(GAME_WIDTH, GAME_HEIGHT);
@@ -57,17 +65,22 @@ public class GameScene {
     private Label scoreLabel; // 显示得分的标签
     private int score = 0; // 初始得分为 0
 
+    private RecentRecordService recentRecordService;
+
+    private String ROLE;
+
+
 
     public void drawGrid(GraphicsContext gc) {
 
         gc.setStroke(Color.BLACK);
         gc.setLineWidth(1);
 
-        for (int x = 0; x < GAME_WIDTH; x += GRID_SIZE) {
+        for (double x = 0; x < GAME_WIDTH; x += GRID_SIZE) {
             gc.strokeLine(x, 0, x, GAME_HEIGHT);
         }
 
-        for (int y = 0; y < GAME_HEIGHT; y += GRID_SIZE) {
+        for (double y = 0; y < GAME_HEIGHT; y += GRID_SIZE) {
             gc.strokeLine(0, y, GAME_WIDTH, y);
         }
     }
@@ -86,10 +99,12 @@ public class GameScene {
             food.setAlive(true);
         }
         if (food.isAlive()) {
+            food.move();
             food.drawFood(gameGc);
         }
 
-        checkFoodCollision();
+        checkCollision();
+        if (python.checkSelfCollision()) endGame("结束游戏2");
 
         python.draw(gameGc);
         if (running) {
@@ -102,9 +117,17 @@ public class GameScene {
     }
 
     public void initialize(Stage stage) {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        recentRecordService = context.getBean(RecentRecordServiceImpl.class);
+
+        this.ROLE = TranslationUtil.translation(Director.getRoleAndSpeed(), true);
+
         this.stage = stage;
+
+        this.python.reset();
+
         pythonMoveTimeLine = new Timeline(
-                new KeyFrame(Duration.millis(Director.getSpeed().getSpeed()), e -> {
+                new KeyFrame(Duration.millis(Director.getRoleAndSpeed().getSpeed()), e -> {
                     if (running) python.move();
 
                 }));
@@ -124,14 +147,31 @@ public class GameScene {
         gameCanvas.setLayoutX(100);
         gameCanvas.setLayoutY(50);
 
+        // SCORE 标签
         scoreLabel = new Label("Score: 0");
-        scoreLabel.setFont(Font.loadFont(getClass().getResourceAsStream("/font/Silver.ttf"), 20));
+        scoreLabel.setFont(Font.loadFont(getClass().getResourceAsStream("/font/Silver.ttf"), 42));
         scoreLabel.setTextFill(Color.WHITE);
         scoreLabel.setStyle("-fx-background-color: rgba(0, 0, 0, 0); -fx-padding: 5;");
-        AnchorPane.setLeftAnchor(scoreLabel, 10.0); // 固定在左下角
-        AnchorPane.setBottomAnchor(scoreLabel, 10.0);
+        AnchorPane.setLeftAnchor(scoreLabel, 90.0);   // 向右移动
+        AnchorPane.setBottomAnchor(scoreLabel, 80.0); // 向上移动
 
-        root.getChildren().addAll(backgroundCanvas, border, gameCanvas, scoreLabel);
+        // ROLE 标签
+        Label roleLabel = new Label("Role: " + ROLE);
+        roleLabel.setFont(Font.loadFont(getClass().getResourceAsStream("/font/Silver.ttf"), 42)); // 字体可以调整
+        roleLabel.setTextFill(Color.WHITE);
+        roleLabel.setStyle("-fx-background-color: rgba(0, 0, 0, 0); -fx-padding: 5;");
+        AnchorPane.setRightAnchor(roleLabel, 90.0); // 设置 roleLabel 距离左边的距离，可以调整
+        AnchorPane.setBottomAnchor(roleLabel, 80.0); // 保持垂直位置一致
+
+        // control 标签
+        Label controlLabel = new Label("操作方式: 使用上、下、左、右进行移动\n\t使用 SPACE 暂停");
+        controlLabel.setFont(Font.loadFont(getClass().getResourceAsStream("/font/Silver.ttf"), 28));
+        controlLabel.setTextFill(Color.WHITE);
+        controlLabel.setStyle("-fx-background-color: rgba(0, 0, 0, 0); -fx-padding: 5;");
+        AnchorPane.setLeftAnchor(controlLabel, 240.0);
+        AnchorPane.setBottomAnchor(controlLabel, 10.0);
+
+        root.getChildren().addAll(backgroundCanvas, border, gameCanvas, scoreLabel, roleLabel, controlLabel);
         stage.getScene().setRoot(root);
         stage.getScene().setOnKeyPressed(keyProcess);
 
@@ -170,10 +210,12 @@ public class GameScene {
         running = !running;
     }
 
-    public void checkFoodCollision() {
-        Python.Segment head = python.getHead();
+    public void checkCollision() {
+        LinkedList<Python.Segment> body = python.getBody();
+        Python.Segment head = body.get(0);
 
         if (head.x == food.getX() && head.y == food.getY() - 1) {
+            SoundEffect.EAT.play();
             python.grow();
             food.setAlive(false);
             score += 100;
@@ -181,8 +223,8 @@ public class GameScene {
         }
 
         if (head.x < 0 || head.x >= (GAME_WIDTH / GRID_SIZE) ||
-                head.y < 0 || head.y >= (GAME_HEIGHT / GRID_SIZE) )
-            endGame("游戏结束");
+                head.y < 0 || head.y >= (GAME_HEIGHT / GRID_SIZE))
+            endGame("游戏结束1");
 
     }
 
@@ -198,18 +240,19 @@ public class GameScene {
         int lastY = last.y;
 
         if (headX < 0) {
-            python.addTailUpdateHead(lastX, lastY);    // 左越界补全
+            python.addTailUpdateHead(lastX, lastY);    // 转移头部，补全尾部
         } else if (headX >= (GAME_WIDTH / GRID_SIZE)) {
-            python.addTailUpdateHead(lastX, lastY);    // 右越界补全
+            python.addTailUpdateHead(lastX, lastY);    // 转移头部，补全尾部
         } else if (headY < 0) {
-            python.addTailUpdateHead(lastX, lastY);    // 上越界补全
+            python.addTailUpdateHead(lastX, lastY);    // 转移头部，补全尾部
         } else if (headY >= (GAME_HEIGHT / GRID_SIZE)) {
-            python.addTailUpdateHead(headX, lastY);    // 下越界补全
+            python.addTailUpdateHead(headX, lastY);    // 转移头部，补全尾部
         }
 
-        paint();
 
         showGameOverPopup(this.stage);
+        String role = TranslationUtil.translation(Director.getRoleAndSpeed());
+        recentRecordService.addRecentRecord(role, score);
     }
 
     public void showGameOverPopup(Stage stage) {
@@ -247,8 +290,9 @@ public class GameScene {
             -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.5), 10, 0, 0, 0);
             """);
         restartButton.setOnAction(e -> {
+            SoundEffect.BUTTON_CLICK.play();
             popupStage.close();
-            restartGame(stage); // 调用重新开始逻辑
+            restartGame(); // 调用重新开始逻辑
         });
 
         // 返回主页按钮
@@ -257,6 +301,7 @@ public class GameScene {
         exitButton.setTextFill(Color.WHITE);
         exitButton.setStyle(restartButton.getStyle());
         exitButton.setOnAction(e -> {
+            SoundEffect.BUTTON_CLICK.play();
             popupStage.close();
             Director.getInstance().toIndex();
         });
@@ -280,14 +325,12 @@ public class GameScene {
         popupStage.show();
     }
 
-    private void restartGame(Stage stage) {
-        python.reset(); // 重置蛇状态（需要在 Python 类中实现 reset 方法）
-        food.setAlive(false); // 重置食物状态
+    private void restartGame() {
+        python.reset();
         score = 0;
+        food.setAlive(false);
         running = true;
-        pythonMoveTimeLine.play(); // 重新开始动画
-
-        paint(); // 重绘场景
+        pythonMoveTimeLine.play();
     }
 
 }

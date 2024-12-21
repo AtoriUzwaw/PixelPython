@@ -1,14 +1,8 @@
 package com.atri.sprite;
 
-import javafx.scene.Scene;
+import com.atri.view.Director;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.util.LinkedList;
 import java.util.Random;
@@ -16,7 +10,8 @@ import java.util.Random;
 public class Food extends Role {
     int snackX;
     int snackY;
-    int GRID_SIZE = 20;
+    double GRID_SIZE = Director.GRID_SIZE;
+    private double angle = 0;  // 旋转角度
 
     public Food(boolean alive) {
         super(alive);
@@ -29,8 +24,8 @@ public class Food extends Role {
             super.x = random.nextInt(0, 30);
             // 这里不能改成（0，20）我也不知道为啥，但是现在能正常跑，就不要动啦~
             super.y = random.nextInt(1, 21);
-            int snackX = (int) x * GRID_SIZE;
-            int snackY = (int) y * GRID_SIZE;
+            int snackX = (int) (x * GRID_SIZE);
+            int snackY = (int) (y * GRID_SIZE);
             validPosition = true;
             // 520, 0
             for (Python.Segment segment : body) {
@@ -46,14 +41,24 @@ public class Food extends Role {
     }
 
     public void drawFood(GraphicsContext gc) {
+        gc.save();
+
+        // 调整旋转中心点
+        gc.translate(snackX + GRID_SIZE / 2, snackY - GRID_SIZE / 2);
+        gc.rotate(angle);
+        gc.translate(-snackX - GRID_SIZE / 2, -snackY + GRID_SIZE / 2);
+
         gc.setFont(Font.font(24));
         // 微调 “食物” 的像素位置
         gc.fillText("✿", snackX - 2, snackY - 1);
+
+        gc.restore();
     }
 
     @Override
     public void move() {
-
+        angle += 5;
+        if (angle >= 360) angle = 0;
     }
 
     @Override

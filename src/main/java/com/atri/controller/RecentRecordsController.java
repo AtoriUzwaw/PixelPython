@@ -1,7 +1,7 @@
 package com.atri.controller;
 
 import com.atri.entity.Record;
-import com.atri.service.RecentService;
+import com.atri.service.RecentRecordService;
 import com.atri.util.SoundEffect;
 import com.atri.view.Director;
 import jakarta.annotation.Resource;
@@ -30,6 +30,9 @@ public class RecentRecordsController {
     private TableColumn<com.atri.entity.Record, Integer> indexColumn;
 
     @FXML
+    private TableColumn<Record, String> roleColumn;
+
+    @FXML
     private TableColumn<com.atri.entity.Record, Integer> scoreColumn;
 
     @FXML
@@ -39,7 +42,7 @@ public class RecentRecordsController {
     private Button backButton;
 
     @Resource
-    RecentService recentService;
+    RecentRecordService recentRecordService;
 
     /**
      * 初始化方法，在界面加载时调用。
@@ -49,6 +52,7 @@ public class RecentRecordsController {
 
         // 设置列的数据映射
         indexColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        roleColumn.setCellValueFactory(new PropertyValueFactory<>("role"));
         scoreColumn.setCellValueFactory(new PropertyValueFactory<>("score"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("dateTime"));
 
@@ -81,7 +85,7 @@ public class RecentRecordsController {
      * @return 最近记录的列表
      */
     private ObservableList<Record> loadRecords() {
-        List<com.atri.entity.Record> recentList = recentService.getRecentList();
+        List<com.atri.entity.Record> recentList = recentRecordService.getRecentRecordList();
         ObservableList<com.atri.entity.Record> records = FXCollections.observableArrayList();
         records.addAll(recentList);
         return FXCollections.observableArrayList(recentList);

@@ -18,8 +18,10 @@
                 <columns>
                     <!-- 序号列 -->
                     <TableColumn fx:id="indexColumn" prefWidth="100.0" text="序号" />
+                    <!-- 角色列 -->
+                    <TableColumn fx:id="roleColumn" prefWidth="150.0" text="角色" />
                     <!-- 分数列 -->
-                    <TableColumn fx:id="scoreColumn" prefWidth="300.0" text="得分" />
+                    <TableColumn fx:id="scoreColumn" prefWidth="150.0" text="得分" />
                     <!-- 日期列 -->
                     <TableColumn fx:id="dateColumn" prefWidth="300.0" text="日期" />
                 </columns>

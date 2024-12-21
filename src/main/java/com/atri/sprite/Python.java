@@ -114,13 +114,17 @@ public class Python extends Role{
     }
 
     public boolean checkSelfCollision() {
+        LinkedList<Segment> body = this.getBody();
         Segment head = body.getFirst();
         for (int i = 1; i < body.size(); i++) {
             Segment segment = body.get(i);
-            if (head.x == segment.x && head.y == segment.y) return true;
+            if (head.x == segment.x && head.y == segment.y) {
+                return true;
+            }
         }
         return false;
     }
+
 
     public void addTailUpdateHead(int newX, int newY) {
         LinkedList<Segment> oldBody = getOldBody(); // 更新为新头部位置

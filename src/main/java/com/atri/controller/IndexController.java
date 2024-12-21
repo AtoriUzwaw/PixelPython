@@ -1,8 +1,10 @@
 package com.atri.controller;
 
+import com.atri.service.RecentRecordService;
 import com.atri.util.SoundEffect;
-import com.atri.util.Speed;
+import com.atri.util.RoleAndSpeed;
 import com.atri.view.Director;
+import jakarta.annotation.Resource;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -31,6 +33,9 @@ public class IndexController {
     @FXML
     private Label bestScoreLabel;
 
+    @Resource
+    RecentRecordService recentRecordService;
+
     private final Color DEFAULT_BACKGROUNDCOLOR = Color.TRANSPARENT;
     private final Color HOVER_BACKGROUNDCOLOR = Color.color(0, 0.6, 0, 0.5);
     private final Color DEFAULT_TEXTCOLOR = Color.BLACK;
@@ -50,25 +55,28 @@ public class IndexController {
         // 微调“最佳得分位置”
         bestScoreLabel.setStyle("-fx-padding: 3, 0, 0, 0");
         bestScoreLabel.setLayoutX(bestScoreLabel.getLayoutX() + 85);
+
+        int maxScore = recentRecordService.getMaxScore();
+        bestScoreLabel.setText("历史最佳：" + maxScore);
     }
 
     @FXML
     void clickStartGame1(MouseEvent event) {
         SoundEffect.BUTTON_CLICK.play();
-        Director.setSpeed(Speed.SLUG);
+        Director.setRoleAndSpeed(RoleAndSpeed.SLUG);
         Director.getInstance().gameStart();
     }
 
     @FXML
     void clickStartGame2(MouseEvent event) {
         SoundEffect.BUTTON_CLICK.play();
-        Director.setSpeed(Speed.WORM);
+        Director.setRoleAndSpeed(RoleAndSpeed.WORM);
         Director.getInstance().gameStart();
     }
 
     @FXML
     void clickStartGame3(MouseEvent event) {
-        Director.setSpeed(Speed.PYTHON);
+        Director.setRoleAndSpeed(RoleAndSpeed.PYTHON);
         SoundEffect.BUTTON_CLICK.play();
         Director.getInstance().gameStart();
     }

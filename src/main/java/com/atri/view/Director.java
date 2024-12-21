@@ -3,8 +3,8 @@ package com.atri.view;
 import com.atri.scene.GameScene;
 import com.atri.scene.IndexScene;
 import com.atri.scene.RecentRecordScene;
-import com.atri.service.RecentService;
-import com.atri.util.Speed;
+import com.atri.service.RecentRecordService;
+import com.atri.util.RoleAndSpeed;
 import jakarta.annotation.Resource;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -33,22 +33,19 @@ public class Director {
 
     public static final double GRID_SIZE = 20;
 
+    @Getter
+    public static Director instance = new Director();
+
     private Stage stage;
 
     @Getter
     @Setter
-    public static Speed speed;
-
-    @Getter
-    private static Director instance = new Director();
-
-    private GameScene gameScene = new GameScene();
+    public static RoleAndSpeed roleAndSpeed;
 
     @Resource
-    RecentService recentService;
+    private RecentRecordService recentRecordService;
 
-
-
+    private final GameScene gameScene = new GameScene();
 
     /**
      * 初始化应用界面
@@ -70,6 +67,7 @@ public class Director {
         stage.getIcons().add(new Image(Objects.
                 requireNonNull(getClass().getResource("/image/icon.png")).toExternalForm()));
 //        stage.setResizable(false);
+
         this.stage = stage;
         toIndex();
         stage.show();

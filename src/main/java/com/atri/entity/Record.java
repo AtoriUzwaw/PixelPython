@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Record {
     int id;
+    String role;
     int score;
     LocalDateTime dateTime;
 }

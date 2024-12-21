@@ -1,18 +1,25 @@
 package com.atri.scene;
 
-import javafx.fxml.FXMLLoader;
+import com.atri.config.AppConfig;
+import com.atri.util.SpringFXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.IOException;
-import java.util.Objects;
+import java.net.URL;
 
 public class IndexScene {
 
     public static void load(Stage stage) {
         try {
-            Parent root = FXMLLoader.load
-                    (Objects.requireNonNull(IndexScene.class.getResource("/fxml/index.fxml")));
+            AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
+            SpringFXMLLoader loader = new SpringFXMLLoader(applicationContext);
+            URL fxmlUrl = RecentRecordScene.class.getResource("/fxml/index.fxml");
+            if (fxmlUrl == null) {
+                throw new IOException("无法找到该文件qaq");
+            }
+            Parent root = loader.load(fxmlUrl).load();
             stage.getScene().setRoot(root);
         } catch (IOException e) {
             System.out.println(e.getMessage());
