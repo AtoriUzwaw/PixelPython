@@ -1,11 +1,15 @@
 package com.atri.config;
 
+import com.atri.util.DatabaseUtil;
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.extern.java.Log;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
+import java.io.IOException;
+import java.nio.file.Path;
 
 /**
  * Mybatis 数据源配置类。
@@ -19,6 +23,7 @@ import javax.sql.DataSource;
  * @since 2024-12-20
  */
 @Configuration
+@Log
 public class MybatisConfiguration {
 
     /**
@@ -30,11 +35,20 @@ public class MybatisConfiguration {
      * @return 配置好的 {@link DataSource} Bean，用于管理 SQLite 数据库的连接池。
      */
     @Bean
-    public DataSource dataSource() {
+    public DataSource dataSource() throws IOException {
         // 初始化 HikariCP 数据源
         HikariDataSource dataSource = new HikariDataSource();
         // 开发环境URL先使用 resource 中的数据库，打包时需要切换为动态路径
-        dataSource.setJdbcUrl("jdbc:sqlite:E:\\user\\ATRI\\Desktop\\Java\\PixelPython\\src\\main\\resources\\pixel_python.db");    // 数据库 URL
+        String url = "";
+        try {
+            Path dataPath = DatabaseUtil.getDatabaseFilePath();
+            url = "jdbc:sqlite:" + dataPath;
+        } catch (IOException e) {
+            log.warning(e.getMessage());
+        }
+        if (url.isEmpty()) throw new RuntimeException("数据库 url 错误qaq");
+        dataSource.setJdbcUrl(url);
+//        dataSource.setJdbcUrl("jdbc:sqlite:E:\\user\\ATRI\\Desktop\\Java\\PixelPython\\src\\main\\resources\\pixel_python.db");    // 数据库 URL
         dataSource.setDriverClassName("org.sqlite.JDBC");       // SQLite JDBC 驱动
 
         // SQLite 无需用户名和密码，留空即可
