@@ -27,11 +27,11 @@
             </TableView>
             <!-- 返回按钮 -->
             <HBox spacing="108" prefWidth="700.0" >
-                <Button fx:id="backButton" text="返回" onAction="#onBackButtonClick"
+                <Button text="返回" onAction="#onBackButtonClick"
                         style="-fx-font-family: Silver; -fx-font-size: 16px; -fx-background-color: #92ae51; -fx-text-fill: #000000;"
                         prefWidth="200.0" alignment="CENTER"/>
                 <Label fx:id="title" text="最近记录"/>
-                <Button fx:id="clearButton" text="清空记录" onAction="#onClearButtonClick"
+                <Button text="清空记录" onAction="#onClearButtonClick"
                         style="-fx-font-family: Silver; -fx-font-size: 16px; -fx-background-color: #92ae51; -fx-text-fill: #000000;"
                         prefWidth="200.0" alignment="CENTER"/>
             </HBox>

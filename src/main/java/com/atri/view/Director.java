@@ -1,5 +1,6 @@
 package com.atri.view;
 
+import com.atri.scene.GameOverScene;
 import com.atri.scene.GameScene;
 import com.atri.scene.IndexScene;
 import com.atri.scene.RecentRecordScene;
@@ -32,6 +33,8 @@ public class Director {
     public static final double DEFAULT_WIDTH = 800, DEFAULT_HEIGHT = 600;
 
     public static final double GRID_SIZE = 20;
+    public static final double GAME_WIDTH = 600;
+    public static final double GAME_HEIGHT = 400;
 
     @Getter
     public static Director instance = new Director();
@@ -46,6 +49,8 @@ public class Director {
     private RecentRecordService recentRecordService;
 
     private final GameScene gameScene = new GameScene();
+
+    private final GameOverScene gameOverScene = new GameOverScene();
 
     /**
      * 初始化应用界面
@@ -73,17 +78,31 @@ public class Director {
         stage.show();
     }
 
+    /**
+     * 转到主页
+     */
     public void toIndex() {
         IndexScene.load(stage);
     }
 
+    /**
+     * 转到历史记录页面
+     */
     public void toRecentRecord() {
         RecentRecordScene.load(stage);
     }
 
+    /**
+     * 转到游戏界面
+     */
     public void gameStart() {
         gameScene.initialize(stage);
     }
 
-    public void gameOver() {}
+    /**
+     * 转到游戏结束界面
+     */
+    public void gameOver() {
+        gameOverScene.showGameOverPopup(this.stage);
+    }
 }

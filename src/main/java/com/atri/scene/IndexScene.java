@@ -9,6 +9,9 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import java.io.IOException;
 import java.net.URL;
 
+/**
+ * 主页界面
+ */
 public class IndexScene {
 
     public static void load(Stage stage) {

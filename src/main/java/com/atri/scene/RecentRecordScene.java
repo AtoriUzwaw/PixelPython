@@ -4,6 +4,7 @@ import com.atri.config.AppConfig;
 import com.atri.util.SpringFXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
+import lombok.extern.java.Log;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -11,6 +12,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 
+/**
+ * 历史记录界面
+ */
+@Log
 public class RecentRecordScene {
     public static void load(Stage stage) {
         try {
@@ -25,7 +30,7 @@ public class RecentRecordScene {
                     RecentRecordScene.class.getResource("/css/recent_record_sheet.css")).toExternalForm());
             stage.getScene().setRoot(root);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.warning("IO 异常：" + e.getMessage());
         }
     }
 }
