@@ -236,6 +236,7 @@ public class GameScene {
 
     public void endGame(String message) {
         if (!running) return;
+        SoundEffect.GAME_OVER.play();
         running = false;
         pythonMoveTimeLine.stop();
         System.out.println(message);

@@ -8,7 +8,8 @@ import java.util.Objects;
 public enum SoundEffect {
     BUTTON_CLICK("/sound/button_click.mp3"),
     EAT("/sound/eat.mp3"),
-    KEYCODE_PRESS("/sound/keyCode_press.mp3");
+    KEYCODE_PRESS("/sound/keyCode_press.mp3"),
+    GAME_OVER("/sound/game_over.mp3");
 
     private final String filePath;
 

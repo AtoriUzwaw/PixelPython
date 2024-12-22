@@ -7,9 +7,11 @@ import java.util.List;
 public interface RecentRecordService {
     List<Record> getRecentRecordList();
 
-    int getMaxScore();
+    Integer getMaxScore();
 
+    @SuppressWarnings("all")
     int addRecentRecord(String role, int score);
 
+    @SuppressWarnings("all")
     int clearRecord();
 }

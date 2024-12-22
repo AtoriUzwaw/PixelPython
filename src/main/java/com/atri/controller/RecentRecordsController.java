@@ -63,10 +63,11 @@ public class RecentRecordsController {
      */
     @FXML
     public void initialize() {
+        // 设置表头样式
         title.setFont(Font.loadFont(getClass().getResourceAsStream("/font/Silver.ttf"), 32));
         title.setStyle("-fx-text-fill: #92ae51");
 
-        // 设置每一列的字体
+        // 设置每一列的样式
         indexColumn.setStyle("-fx-font-weight: bold; -fx-font-family: 'Silver'; -fx-font-size: 24px;");
         roleColumn.setStyle("-fx-font-weight: bold; -fx-font-family: 'Silver'; -fx-font-size: 24px;");
         scoreColumn.setStyle("-fx-font-weight: bold; -fx-font-family: 'Silver'; -fx-font-size: 24px;");
@@ -98,33 +99,24 @@ public class RecentRecordsController {
         });
 
         // 加载数据到表格
-        ObservableList<com.atri.entity.Record> records = loadRecords();
-        recordsTable.setItems(records);
+        loadRecords();
+
     }
 
-    /**
-     * 模拟加载最近记录数据。
-     * @return 最近记录的列表
-     */
-    private ObservableList<Record> loadRecords() {
+
+    private void loadRecords() {
         List<com.atri.entity.Record> recentList = recentRecordService.getRecentRecordList();
         ObservableList<com.atri.entity.Record> records = FXCollections.observableArrayList();
-        records.addAll(recentList);
-        return FXCollections.observableArrayList(recentList);
-    }
-
-    /**
-     * 返回按钮点击事件。
-     */
-    @FXML
-    private void onBackButtonClick() {
-        SoundEffect.BUTTON_CLICK.play();
-        Director.getInstance().toIndex();
+        if (recentList.isEmpty()) {
+            title.setText("没有最近记录qaq");
+        } else {
+            records.addAll(recentList);
+            recordsTable.setItems(records);
+        }
     }
 
     @FXML
     private void onClearButtonClick() {
-        // 播放按钮点击音效
         SoundEffect.BUTTON_CLICK.play();
 
         // 创建一个确认对话框
@@ -147,20 +139,32 @@ public class RecentRecordsController {
         // 显示弹窗并等待用户的选择
         Optional<ButtonType> result = alert.showAndWait();
 
-        // 如果用户点击确认按钮
+        // 点击确认按钮，执行删除相关逻辑
         if (result.isPresent() && result.get() == confirmButton) {
             SoundEffect.BUTTON_CLICK.play();
-            // 清除记录的逻辑
+            // 清除记录
             clearRecords();
+            // 刷新界面
+            Director.getInstance().toRecentRecord();
         }
         if (result.isPresent() && result.get() == cancelButton) {
             SoundEffect.BUTTON_CLICK.play();
         }
     }
 
-    // 清除记录的具体操作
+    /**
+     * 清除记录
+     */
     private void clearRecords() {
-        // 在这里实现清除记录的逻辑
-        System.out.println("记录已清除");
+        recentRecordService.clearRecord();
+    }
+
+    /**
+     * 返回按钮点击事件。
+     */
+    @FXML
+    private void onBackButtonClick() {
+        SoundEffect.BUTTON_CLICK.play();
+        Director.getInstance().toIndex();
     }
 }

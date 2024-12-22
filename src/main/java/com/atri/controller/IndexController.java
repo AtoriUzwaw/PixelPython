@@ -15,6 +15,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import org.springframework.stereotype.Controller;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
 @Controller
 public class IndexController {
 
@@ -56,8 +59,12 @@ public class IndexController {
         bestScoreLabel.setStyle("-fx-padding: 3, 0, 0, 0");
         bestScoreLabel.setLayoutX(bestScoreLabel.getLayoutX() + 85);
 
-        int maxScore = recentRecordService.getMaxScore();
-        bestScoreLabel.setText("历史最佳：" + maxScore);
+
+            Integer maxScore = recentRecordService.getMaxScore();
+            String msg = maxScore != null ? String.valueOf(maxScore) : "暂无记录qaq";
+            bestScoreLabel.setText("历史最佳：" + msg);
+
+
     }
 
     @FXML

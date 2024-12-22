@@ -14,7 +14,7 @@ public interface Mapper {
     List<Record> selectRecent();
 
     @Select("select max(score) from recent")
-    int selectMaxScore();
+    Integer selectMaxScore();
 
     @Insert("insert into recent (user_id, role, score, date_time) " +
             "values (#{user_id}, #{role}, #{score}, #{date_time})")
