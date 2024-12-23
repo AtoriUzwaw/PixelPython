@@ -24,36 +24,36 @@ PixelPython 项目使用 JavaFX 实现，旨在帮助我熟悉 JavaFX 库及其�
 
 ## 项目结构
 
-PixelPython/
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   ├── com/
-│   │   │   │   ├── atri/
-│   │   │   │   │   ├── config/          # Spring 与数据库配置
-│   │   │   │   │   ├── controller/      # 控制器层
-│   │   │   │   │   ├── dao/             # 数据库操作层
-│   │   │   │   │   ├── entity/          # 实体类
-│   │   │   │   │   ├── scene/           # 界面布局和交互
-│   │   │   │   │   ├── service/         # 服务层
-│   │   │   │   │   ├── sprite/          # 精灵类和图形组件
-│   │   │   │   │   ├── util/            # 工具类
-│   │   │   │   │   ├── view/            # 视图层
-│   │   │   │   │   ├── Main.java        # 启动类
-│   └── resources/
-│       ├── css/                         # 样式文件
-│       ├── font/                        # 字体文件
-│       ├── fxml/                        # FXML 布局文件
-│       ├── image/                       # 图片资源
-│       ├── sound/                       # 音效文件
-│       ├── pixel_python.db              # 数据库文件
-├── target/                              # Maven构建后生成的输出目录
-├── .gitignore                           # Git 忽略文件配置
-├── CONTRIBUTING.md                      # 贡献指南
-├── dependency-reduced-pom.xml           # Maven构建时生成的精简依赖文件
-├── LICENSE                              # 项目许可证文件
-├── pom.xml                              # Maven构建配置文件
-└── README.md                            # 项目说明文件
+PixelPython/<br>
+├── src/<br>
+│   ├── main/<br>
+│   │   ├── java/<br>
+│   │   │   ├── com/<br>
+│   │   │   │   ├── atri/<br>
+│   │   │   │   │   ├── config/          # Spring 与数据库配置<br>
+│   │   │   │   │   ├── controller/      # 控制器层<br>
+│   │   │   │   │   ├── dao/             # 数据库操作层<br>
+│   │   │   │   │   ├── entity/          # 实体类<br>
+│   │   │   │   │   ├── scene/           # 界面布局和交互<br>
+│   │   │   │   │   ├── service/         # 服务层<br>
+│   │   │   │   │   ├── sprite/          # 精灵类和图形组件<br>
+│   │   │   │   │   ├── util/            # 工具类<br>
+│   │   │   │   │   ├── view/            # 视图层<br>
+│   │   │   │   │   ├── Main.java        # 启动类<br>
+│   └── resources/<br>
+│       ├── css/                         # 样式文件<br>
+│       ├── font/                        # 字体文件<br>
+│       ├── fxml/                        # FXML 布局文件<br>
+│       ├── image/                       # 图片资源<br>
+│       ├── sound/                       # 音效文件<br>
+│       ├── pixel_python.db              # 数据库文件<br>
+├── target/                              # Maven构建后生成的输出目录<br>
+├── .gitignore                           # Git 忽略文件配置<br>
+├── CONTRIBUTING.md                      # 贡献指南<br>
+├── dependency-reduced-pom.xml           # Maven构建时生成的精简依赖文件<br>
+├── LICENSE                              # 项目许可证文件<br>
+├── pom.xml                              # Maven构建配置文件<br>
+└── README.md                            # 项目说明文件<br>
 
 ## 安装与运行
 
