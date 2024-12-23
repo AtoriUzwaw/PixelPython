@@ -30,7 +30,7 @@ PixelPython/
 │   │   ├── java/
 │   │   │   ├── com/
 │   │   │   │   ├── atri/
-│   │   │   │   │   ├── config/          # Spring与数据库配置
+│   │   │   │   │   ├── config/          # Spring 与数据库配置
 │   │   │   │   │   ├── controller/      # 控制器层
 │   │   │   │   │   ├── dao/             # 数据库操作层
 │   │   │   │   │   ├── entity/          # 实体类
@@ -51,7 +51,7 @@ PixelPython/
 ├── .gitignore                           # Git 忽略文件配置
 ├── dependency-reduced-pom.xml           # Maven构建时生成的精简依赖文件
 ├── LICENSE                              # 项目许可证文件
-├── pom.xml                              # Maven 构建配置文件
+├── pom.xml                              # Maven构建配置文件
 └── README.md                            # 项目说明文件
 
 ## 安装与运行
