@@ -45,15 +45,15 @@ public class GameOverScene {
         Button restartButton = new Button("重新开始");
         restartButton.setFont(Font.loadFont(getClass().getResourceAsStream("/font/Silver.ttf"), 30));  // 设置按钮字体
         restartButton.setTextFill(Color.WHITE);  // 设置按钮文本颜色为白色
-        restartButton.setStyle("""
-            -fx-background-color: transparent;
-            -fx-border-color: white;
-            -fx-border-width: 2;
-            -fx-border-radius: 5;
-            -fx-padding: 5 20 5 20;
-            -fx-cursor: hand;
-            -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.5), 10, 0, 0, 0);
-            """);  // 设置按钮样式，包括边框、阴影和光标样式
+        restartButton.setStyle(""" 
+        -fx-background-color: transparent;
+        -fx-border-color: white;
+        -fx-border-width: 2;
+        -fx-border-radius: 5;
+        -fx-padding: 5 20 5 20;
+        -fx-cursor: hand;
+        -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.5), 10, 0, 0, 0);
+    """);  // 设置按钮样式，包括边框、阴影和光标样式
         // 按钮点击事件：重新开始游戏
         restartButton.setOnAction(e -> {
             SoundEffect.BUTTON_CLICK.play();     // 播放按钮点击音效
@@ -90,7 +90,11 @@ public class GameOverScene {
 
         // 设置弹出窗口的Scene并显示
         popupStage.setScene(scene);
-        popupStage.centerOnScreen();  // 设置弹出窗口居中显示
+
+        // 将弹出窗口的位置设置为相对于主窗口居中
+        popupStage.setX(stage.getX() + (stage.getWidth() - 300) / 2); // 相对于主窗口居中
+        popupStage.setY(stage.getY() + (stage.getHeight() - 200) / 2); // 相对于主窗口居中
+
         popupStage.show();            // 显示弹出窗口
     }
 }
