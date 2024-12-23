@@ -36,13 +36,13 @@ public class RecentRecordsController {
 
     // FXML 注解绑定界面控件
     @FXML
-    private TableView<com.atri.entity.Record> recordsTable;  // 显示成绩记录的表格
+    private TableView<com.atri.entity.Record> recordsTable;                 // 显示成绩记录的表格
     @FXML
-    private TableColumn<com.atri.entity.Record, Integer> indexColumn;  // 表格中的索引列
+    private TableColumn<com.atri.entity.Record, Integer> indexColumn;       // 表格中的索引列
     @FXML
-    private TableColumn<Record, String> roleColumn;  // 角色列
+    private TableColumn<Record, String> roleColumn;                         // 角色列
     @FXML
-    private TableColumn<com.atri.entity.Record, Integer> scoreColumn;  // 分数列
+    private TableColumn<com.atri.entity.Record, Integer> scoreColumn;       // 分数列
     @FXML
     private TableColumn<com.atri.entity.Record, LocalDateTime> dateColumn;  // 日期列
     @FXML

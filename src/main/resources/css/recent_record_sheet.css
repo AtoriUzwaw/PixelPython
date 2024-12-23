@@ -1,6 +1,6 @@
 @font-face {
     font-family: "Silver";
-    src: url("font/Silver.ttf") format("truetype");
+    src: url("/font/Silver.ttf") format("truetype");
 }
 
 /* 设置表格的外观 */

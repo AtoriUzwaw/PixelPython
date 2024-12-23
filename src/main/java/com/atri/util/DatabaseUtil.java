@@ -15,6 +15,7 @@ public class DatabaseUtil {
 
     private static final String DB_FOLDER_NAME = "db";             // 数据库文件夹名
     private static final String DB_FILE_NAME = "pixel_python.db";  // 数据库文件名
+    private static boolean isDbDisplayed = false;  // 标记数据库路径是否已经显示过
 
     /**
      * 获取数据库文件的路径。如果文件夹不存在，则会自动创建。
@@ -52,10 +53,18 @@ public class DatabaseUtil {
                 System.out.println("数据库文件已复制到: " + dbFilePath.toAbsolutePath());
             }
         } else {
-            System.out.println("数据库文件位于: " + dbFilePath.toAbsolutePath());
+            if (!isDbDisplayed) displayDbPath(dbFilePath);
         }
 
         return dbFilePath;
+    }
+
+    /**
+     * 显示数据库路径，只在当前程序运行中第一次访问时显示。
+     */
+    private static void displayDbPath(Path dbFilePath) {
+        System.out.println("数据库文件位于: " + dbFilePath.toAbsolutePath());
+        isDbDisplayed = true;  // 标记数据库路径已显示过
     }
 }
 

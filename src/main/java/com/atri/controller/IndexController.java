@@ -34,11 +34,11 @@ public class IndexController {
     // 定义常用颜色和按钮文本
     private final Color DEFAULT_BACKGROUNDCOLOR = Color.TRANSPARENT;  // 默认背景颜色
     private final Color HOVER_BACKGROUNDCOLOR = Color.color(0, 0.6, 0, 0.5);  // 鼠标悬停背景颜色
-    private final Color DEFAULT_TEXTCOLOR = Color.BLACK;  // 默认文本颜色
-    private final Color HOVER_TEXTCOLOR = Color.WHITE;    // 鼠标悬停文本颜色
-    private final String BUTTON1_TEXT = "鼻涕虫";          // 鼠标点击“鼻涕虫”按钮时显示的文本
-    private final String BUTTON2_TEXT = "蠕虫";            // 鼠标点击“蠕虫”按钮时显示的文本
-    private final String BUTTON3_TEXT = "Python";          // 鼠标点击“Python”按钮时显示的文本
+    private final Color DEFAULT_TEXTCOLOR = Color.BLACK;    // 默认文本颜色
+    private final Color HOVER_TEXTCOLOR = Color.WHITE;      // 鼠标悬停文本颜色
+    private final String BUTTON1_TEXT = "鼻涕虫";            // 鼠标点击“鼻涕虫”按钮时显示的文本
+    private final String BUTTON2_TEXT = "蠕虫";              // 鼠标点击“蠕虫”按钮时显示的文本
+    private final String BUTTON3_TEXT = "Python";                // 鼠标点击“Python”按钮时显示的文本
     private final String RECENT_RECORD_BUTTON_TEXT = "最近记录";  // 鼠标点击“最近记录”按钮时显示的文本
 
     /**
@@ -175,10 +175,11 @@ public class IndexController {
     /**
      * 绘制按钮的样式
      * 设置按钮的背景颜色、文本颜色和按钮文本，确保按钮内容居中显示。
-     * @param button 当前按钮
+     *
+     * @param button          当前按钮
      * @param backgroundColor 背景颜色
-     * @param textColor 文本颜色
-     * @param text 按钮文本
+     * @param textColor       文本颜色
+     * @param text            按钮文本
      */
     private void drawButton(Canvas button, Color backgroundColor, Color textColor, String text) {
         GraphicsContext gc = button.getGraphicsContext2D();
