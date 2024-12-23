@@ -49,6 +49,7 @@ PixelPython/
 │       ├── pixel_python.db              # 数据库文件
 ├── target/                              # Maven构建后生成的输出目录
 ├── .gitignore                           # Git 忽略文件配置
+├── CONTRIBUTING.md                      # 贡献指南
 ├── dependency-reduced-pom.xml           # Maven构建时生成的精简依赖文件
 ├── LICENSE                              # 项目许可证文件
 ├── pom.xml                              # Maven构建配置文件
