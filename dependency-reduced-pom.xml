@@ -42,6 +42,60 @@
       </plugin>
     </plugins>
   </build>
+  <dependencies>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-controls</artifactId>
+      <version>21.0.5</version>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>javafx-controls</artifactId>
+          <groupId>org.openjfx</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-fxml</artifactId>
+      <version>21.0.5</version>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>javafx-fxml</artifactId>
+          <groupId>org.openjfx</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-media</artifactId>
+      <version>21.0.5</version>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>javafx-media</artifactId>
+          <groupId>org.openjfx</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-graphics</artifactId>
+      <version>21.0.5</version>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>javafx-graphics</artifactId>
+          <groupId>org.openjfx</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>javafx-base</artifactId>
+          <groupId>org.openjfx</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+  </dependencies>
   <properties>
     <maven.compiler.target>17</maven.compiler.target>
     <maven.compiler.source>17</maven.compiler.source>

@@ -53,26 +53,30 @@
             <artifactId>HikariCP</artifactId>
             <version>5.0.1</version>
         </dependency>
-        <!-- JavaFX 依赖 -->
+        <!-- JavaFX 依赖，在打包时可以加上 provided -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>21.0.5</version>
+<!--            <scope>provided</scope>-->
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
             <version>21.0.5</version>
+<!--            <scope>provided</scope>-->
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-media</artifactId>
             <version>21.0.5</version>
+<!--            <scope>provided</scope>-->
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-graphics</artifactId>
             <version>21.0.5</version>
+<!--            <scope>provided</scope>-->
         </dependency>
         <!-- lombok -->
         <dependency>

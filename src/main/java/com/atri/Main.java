@@ -12,9 +12,6 @@ import org.springframework.context.ApplicationContext;
  */
 public class Main extends Application {
 
-    // Spring 应用上下文
-    private static ApplicationContext context;
-
     /**
      * 应用程序的入口点，启动 JavaFX 应用。
      * @param args 启动参数
