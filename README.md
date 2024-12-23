@@ -67,7 +67,6 @@ PixelPython/
 
 ### 1. 克隆项目
 
-若本项目公开，可以克隆到本地
 ```bash
 git clone https://github.com/AtoriUzwaw/PixelPython.git
 cd PixelPython
