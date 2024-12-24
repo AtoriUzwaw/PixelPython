@@ -96,7 +96,7 @@ cd PixelPython
 
 2. 或通过 maven 运行（相关依赖已导入）
    ```bash
-   mvn javafx:run
+   mvn clean javafx:run
    ```
 
 ### 4. 项目中使用的数据库
