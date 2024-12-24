@@ -91,7 +91,7 @@ cd PixelPython
 
 #### 方法二：通过 IDE / maven 运行源码
 
-1. 配置好本地 JavaFX 依赖运行后，也可以直接在 IDE 中运行 `com.atri.Main` 类。
+1. 配置好本地 JavaFX 依赖后，也可以直接在 IDE 中运行 `com.atri.Main` 类。
 
 2. 或通过 maven 运行（相关依赖已导入）
    ```bash
