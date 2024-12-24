@@ -74,6 +74,7 @@ public class Director {
         Scene scene = new Scene(root, DEFAULT_WIDTH, DEFAULT_HEIGHT);
         stage.setScene(scene);
         stage.setTitle("PixelPython");
+        stage.setResizable(false); // 禁止窗口大小改变与最大化
 
         // 设置窗口图标
         stage.getIcons().add(new Image(Objects.
