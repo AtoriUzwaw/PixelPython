@@ -47,7 +47,6 @@ PixelPython/<br>
 │       ├── image/                       # 图片资源<br>
 │       ├── sound/                       # 音效文件<br>
 │       ├── pixel_python.db              # 数据库文件<br>
-├── target/                              # Maven构建后生成的输出目录<br>
 ├── .gitignore                           # Git 忽略文件配置<br>
 ├── CONTRIBUTING.md                      # 贡献指南<br>
 ├── dependency-reduced-pom.xml           # Maven构建时生成的精简依赖文件<br>
